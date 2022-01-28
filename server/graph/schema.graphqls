@@ -9,7 +9,7 @@ type Query {
 }
 
 type Mutation {
-  createModule(input: NewModule!): Module!
+  createModule(input: NewModule!): ID!
   updateModule(input: NewModule!): Module!
   deleteModule(input: ID!): Module!
 }

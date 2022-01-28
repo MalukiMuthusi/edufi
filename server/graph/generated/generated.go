@@ -73,7 +73,7 @@ type LearningObjectiveResolver interface {
 	Module(ctx context.Context, obj *model.LearningObjective) (*model.Module, error)
 }
 type MutationResolver interface {
-	CreateModule(ctx context.Context, input model.NewModule) (*model.Module, error)
+	CreateModule(ctx context.Context, input model.NewModule) (string, error)
 	UpdateModule(ctx context.Context, input model.NewModule) (*model.Module, error)
 	DeleteModule(ctx context.Context, input string) (*model.Module, error)
 }
@@ -282,7 +282,7 @@ type Query {
 }
 
 type Mutation {
-  createModule(input: NewModule!): Module!
+  createModule(input: NewModule!): ID!
   updateModule(input: NewModule!): Module!
   deleteModule(input: ID!): Module!
 }
@@ -686,9 +686,9 @@ func (ec *executionContext) _Mutation_createModule(ctx context.Context, field gr
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Module)
+	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalNModule2ᚖgithubᚗcomᚋMalukiMuthusiᚋedufiᚋserverᚋgraphᚋmodelᚐModule(ctx, field.Selections, res)
+	return ec.marshalNID2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_updateModule(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {

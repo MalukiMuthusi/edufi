@@ -9,15 +9,17 @@ import (
 	_ "github.com/jackc/pgx/v4/stdlib"
 )
 
+type Postgres struct{}
+
 var Db *sql.DB
 
 func StartDB() {
 
-	dbUser := os.Getenv("user")
-	dbPwd := os.Getenv("pwd")
-	dbName := os.Getenv("name")
-	dbPort := os.Getenv("port")
-	dbHost := os.Getenv("host")
+	dbUser := os.Getenv("EDUFI_DB_USER")
+	dbPwd := os.Getenv("EDUFI_DB_PWD")
+	dbName := os.Getenv("EDUFI_DB_NAME")
+	dbPort := os.Getenv("EDUFI_DB_PORT")
+	dbHost := os.Getenv("EDUFI_DB_HOST")
 
 	dbURI := fmt.Sprintf("host=%s user=%s password=%s port=%s database=%s", dbHost, dbUser, dbPwd, dbPort, dbName)
 

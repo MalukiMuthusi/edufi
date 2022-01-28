@@ -15,8 +15,9 @@ func (r *learningObjectiveResolver) Module(ctx context.Context, obj *model.Learn
 	panic(fmt.Errorf("not implemented"))
 }
 
-func (r *mutationResolver) CreateModule(ctx context.Context, input model.NewModule) (*model.Module, error) {
-	panic(fmt.Errorf("not implemented"))
+func (r *mutationResolver) CreateModule(ctx context.Context, input model.NewModule) (string, error) {
+	id, err := r.S.CreateModule(ctx, input)
+	return *id, err
 }
 
 func (r *mutationResolver) UpdateModule(ctx context.Context, input model.NewModule) (*model.Module, error) {
