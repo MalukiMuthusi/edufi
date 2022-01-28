@@ -6,8 +6,3 @@ CREATE TABLE modules(
     synopis VARCHAR(128) NOT NULL
 );
 
-CREATE TABLE learning_objectives (
-    id SERIAL PRIMARY KEY,
-    module REFERENCES modules(id),
-    name VARCHAR(64) NOT NULL UNIQUE
-)
