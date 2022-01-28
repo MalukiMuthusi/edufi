@@ -2,27 +2,31 @@
 #
 # https://gqlgen.com/getting-started/
 
-type Todo {
-  id: ID!
-  text: String!
-  done: Boolean!
-  user: User!
-}
-
-type User {
-  id: ID!
-  name: String!
-}
-
 type Query {
-  todos: [Todo!]!
-}
-
-input NewTodo {
-  text: String!
-  userId: String!
+  modules: [Module!]!
+  module(id: String!): Module
+  searchModule(text: String!): [Module]
 }
 
 type Mutation {
-  createTodo(input: NewTodo!): Todo!
+  createModule(input: NewModule!): Module!
+  updateModule(input: NewModule!): Module!
+  deleteModule(input: ID!): Module!
+}
+
+type Module {
+  id: ID!
+  name: String!
+  synopsis: String!
+}
+
+type LearningObjective {
+  id: ID!
+  module: Module!
+  name: String!
+}
+
+input NewModule {
+  name: String!
+  synopsis: String!
 }
