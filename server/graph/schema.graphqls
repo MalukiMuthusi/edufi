@@ -9,17 +9,20 @@ type Query {
 }
 
 type Mutation {
+  # createModule creates a new module and saves it to the system
   createModule(input: NewModule!): ID!
   updateModule(input: NewModule!): Module!
   deleteModule(input: ID!): Module!
 }
 
+# Module is specified by the institution and students enrol for its class
 type Module {
   id: ID!
   name: String!
   synopsis: String!
 }
 
+# LearningObjective are for the modules
 type LearningObjective {
   id: ID!
   module: Module!
