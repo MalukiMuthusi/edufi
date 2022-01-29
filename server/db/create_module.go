@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"github.com/MalukiMuthusi/edufi/server/graph/model"
@@ -13,17 +14,17 @@ func (P *Postgres) CreateModule(ctx context.Context, input model.NewModule) (*st
 
 	rows := Db.QueryRowContext(ctx, sqlStmt, input.Name, input.Synopsis)
 
-	var i int64 = 0
+	var i int64 = -1
 
 	err := rows.Scan(&i)
 	if err != nil {
-		log.Printf("CreateModule: %v", err)
-		return nil, err
+		log.Printf("CreateModule: failed to create module: %v", err)
+		return nil, fmt.Errorf("module not created")
 	}
 
 	id, err := P.createID("modules", i)
 	if err != nil {
-		log.Printf("CreateModule: %v", err)
+		log.Printf("CreateModule: failed to create from the table ID: %v", err)
 		return nil, err
 	}
 

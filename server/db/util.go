@@ -9,6 +9,9 @@ import (
 
 // createID creates a schema ID from a table id
 func (P *Postgres) createID(table string, id int64) (*string, error) {
+	if id < 0 {
+		return nil, fmt.Errorf("invalid table id")
+	}
 	s := fmt.Sprintf("%s-%d", table, id)
 
 	return &s, nil
