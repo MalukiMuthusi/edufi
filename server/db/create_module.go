@@ -50,7 +50,7 @@ func (P *Postgres) getID(id string, table string) (*int64, error) {
 	itemID := s[1]
 	i, err := strconv.ParseInt(itemID, 10, 64)
 	if err != nil {
-		log.Printf("CreateModule: %v", err)
+		log.Printf("getID: %v", err)
 		return nil, err
 	}
 	return &i, nil

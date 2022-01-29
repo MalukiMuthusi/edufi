@@ -33,7 +33,7 @@ func (r *queryResolver) Modules(ctx context.Context) ([]*model.Module, error) {
 }
 
 func (r *queryResolver) Module(ctx context.Context, id string) (*model.Module, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.S.GetModule(ctx, id)
 }
 
 func (r *queryResolver) SearchModule(ctx context.Context, text string) ([]*model.Module, error) {
