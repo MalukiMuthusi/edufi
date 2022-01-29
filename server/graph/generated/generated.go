@@ -276,6 +276,7 @@ var sources = []*ast.Source{
 # https://gqlgen.com/getting-started/
 
 type Query {
+  # modules returns all the saved modules in the system
   modules: [Module!]!
   module(id: String!): Module
   searchModule(text: String!): [Module]
