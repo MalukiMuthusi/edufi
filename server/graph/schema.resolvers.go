@@ -20,8 +20,8 @@ func (r *mutationResolver) CreateModule(ctx context.Context, input model.NewModu
 	return *id, err
 }
 
-func (r *mutationResolver) UpdateModule(ctx context.Context, input model.NewModule) (*model.Module, error) {
-	panic(fmt.Errorf("not implemented"))
+func (r *mutationResolver) UpdateModule(ctx context.Context, id string, input model.NewModule) (*model.Module, error) {
+	return r.S.UpdateModule(ctx, id, input)
 }
 
 func (r *mutationResolver) DeleteModule(ctx context.Context, id string) (string, error) {

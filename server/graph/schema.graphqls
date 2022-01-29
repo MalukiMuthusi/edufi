@@ -12,7 +12,7 @@ type Query {
 type Mutation {
   # createModule creates a new module and saves it to the system
   createModule(input: NewModule!): ID!
-  updateModule(input: NewModule!): Module!
+  updateModule(id: ID!, input: NewModule!): Module!
   deleteModule(id: ID!): String!
 }
 

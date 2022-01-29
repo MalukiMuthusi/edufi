@@ -13,7 +13,7 @@ func (P *Postgres) GetModule(ctx context.Context, id string) (*model.Module, err
 	sql := "SELECT id, name, synopsis FROM modules WHERE id = $1"
 	idString, err := P.getID(id, util.ModuleTable)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("provided id not found")
 	}
 
 	row := Db.QueryRowContext(ctx, sql, idString)
