@@ -63,9 +63,9 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		Module       func(childComplexity int, id string) int
-		Modules      func(childComplexity int) int
-		SearchModule func(childComplexity int, text string) int
+		Module        func(childComplexity int, id string) int
+		Modules       func(childComplexity int) int
+		SearchModules func(childComplexity int, text string) int
 	}
 }
 
@@ -80,7 +80,7 @@ type MutationResolver interface {
 type QueryResolver interface {
 	Modules(ctx context.Context) ([]*model.Module, error)
 	Module(ctx context.Context, id string) (*model.Module, error)
-	SearchModule(ctx context.Context, text string) ([]*model.Module, error)
+	SearchModules(ctx context.Context, text string) ([]*model.Module, error)
 }
 
 type executableSchema struct {
@@ -195,17 +195,17 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.Modules(childComplexity), true
 
-	case "Query.searchModule":
-		if e.complexity.Query.SearchModule == nil {
+	case "Query.searchModules":
+		if e.complexity.Query.SearchModules == nil {
 			break
 		}
 
-		args, err := ec.field_Query_searchModule_args(context.TODO(), rawArgs)
+		args, err := ec.field_Query_searchModules_args(context.TODO(), rawArgs)
 		if err != nil {
 			return 0, false
 		}
 
-		return e.complexity.Query.SearchModule(childComplexity, args["text"].(string)), true
+		return e.complexity.Query.SearchModules(childComplexity, args["text"].(string)), true
 
 	}
 	return 0, false
@@ -279,7 +279,7 @@ type Query {
   # modules returns all the saved modules in the system
   modules: [Module!]!
   module(id: String!): Module
-  searchModule(text: String!): [Module]
+  searchModules(text: String!): [Module]
 }
 
 type Mutation {
@@ -399,7 +399,7 @@ func (ec *executionContext) field_Query_module_args(ctx context.Context, rawArgs
 	return args, nil
 }
 
-func (ec *executionContext) field_Query_searchModule_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Query_searchModules_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 string
@@ -862,7 +862,7 @@ func (ec *executionContext) _Query_module(ctx context.Context, field graphql.Col
 	return ec.marshalOModule2ᚖgithubᚗcomᚋMalukiMuthusiᚋedufiᚋserverᚋgraphᚋmodelᚐModule(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Query_searchModule(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+func (ec *executionContext) _Query_searchModules(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -879,7 +879,7 @@ func (ec *executionContext) _Query_searchModule(ctx context.Context, field graph
 
 	ctx = graphql.WithFieldContext(ctx, fc)
 	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Query_searchModule_args(ctx, rawArgs)
+	args, err := ec.field_Query_searchModules_args(ctx, rawArgs)
 	if err != nil {
 		ec.Error(ctx, err)
 		return graphql.Null
@@ -887,7 +887,7 @@ func (ec *executionContext) _Query_searchModule(ctx context.Context, field graph
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().SearchModule(rctx, args["text"].(string))
+		return ec.resolvers.Query().SearchModules(rctx, args["text"].(string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2367,7 +2367,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Concurrently(i, func() graphql.Marshaler {
 				return rrm(innerCtx)
 			})
-		case "searchModule":
+		case "searchModules":
 			field := field
 
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
@@ -2376,7 +2376,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_searchModule(ctx, field)
+				res = ec._Query_searchModules(ctx, field)
 				return res
 			}
 

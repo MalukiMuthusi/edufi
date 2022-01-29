@@ -41,8 +41,8 @@ func (r *queryResolver) Module(ctx context.Context, id string) (*model.Module, e
 	return r.S.GetModule(ctx, id)
 }
 
-func (r *queryResolver) SearchModule(ctx context.Context, text string) ([]*model.Module, error) {
-	panic(fmt.Errorf("not implemented"))
+func (r *queryResolver) SearchModules(ctx context.Context, text string) ([]*model.Module, error) {
+	return r.S.SearchModules(ctx, text)
 }
 
 // LearningObjective returns generated.LearningObjectiveResolver implementation.

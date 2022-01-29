@@ -6,7 +6,7 @@ type Query {
   # modules returns all the saved modules in the system
   modules: [Module!]!
   module(id: String!): Module
-  searchModule(text: String!): [Module]
+  searchModules(text: String!): [Module]
 }
 
 type Mutation {

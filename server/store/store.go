@@ -12,6 +12,7 @@ type Store interface {
 	GetModule(ctx context.Context, id string) (*model.Module, error)
 	DeleteModule(ctx context.Context, id string) (*string, error)
 	UpdateModule(ctx context.Context, id string, input model.NewModule) (*model.Module, error)
+	SearchModules(ctx context.Context, text string) ([]*model.Module, error)
 }
 
 func init() {}
