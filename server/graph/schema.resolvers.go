@@ -24,8 +24,13 @@ func (r *mutationResolver) UpdateModule(ctx context.Context, input model.NewModu
 	panic(fmt.Errorf("not implemented"))
 }
 
-func (r *mutationResolver) DeleteModule(ctx context.Context, input string) (*model.Module, error) {
-	panic(fmt.Errorf("not implemented"))
+func (r *mutationResolver) DeleteModule(ctx context.Context, id string) (string, error) {
+	idString, err := r.S.DeleteModule(ctx, id)
+	if err != nil {
+		return "0", err
+	}
+
+	return *idString, err
 }
 
 func (r *queryResolver) Modules(ctx context.Context) ([]*model.Module, error) {

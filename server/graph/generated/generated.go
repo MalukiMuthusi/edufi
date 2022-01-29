@@ -58,7 +58,7 @@ type ComplexityRoot struct {
 
 	Mutation struct {
 		CreateModule func(childComplexity int, input model.NewModule) int
-		DeleteModule func(childComplexity int, input string) int
+		DeleteModule func(childComplexity int, id string) int
 		UpdateModule func(childComplexity int, input model.NewModule) int
 	}
 
@@ -75,7 +75,7 @@ type LearningObjectiveResolver interface {
 type MutationResolver interface {
 	CreateModule(ctx context.Context, input model.NewModule) (string, error)
 	UpdateModule(ctx context.Context, input model.NewModule) (*model.Module, error)
-	DeleteModule(ctx context.Context, input string) (*model.Module, error)
+	DeleteModule(ctx context.Context, id string) (string, error)
 }
 type QueryResolver interface {
 	Modules(ctx context.Context) ([]*model.Module, error)
@@ -162,7 +162,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.DeleteModule(childComplexity, args["input"].(string)), true
+		return e.complexity.Mutation.DeleteModule(childComplexity, args["id"].(string)), true
 
 	case "Mutation.updateModule":
 		if e.complexity.Mutation.UpdateModule == nil {
@@ -286,7 +286,7 @@ type Mutation {
   # createModule creates a new module and saves it to the system
   createModule(input: NewModule!): ID!
   updateModule(input: NewModule!): Module!
-  deleteModule(input: ID!): Module!
+  deleteModule(id: ID!): String!
 }
 
 # Module is specified by the institution and students enrol for its class
@@ -334,14 +334,14 @@ func (ec *executionContext) field_Mutation_deleteModule_args(ctx context.Context
 	var err error
 	args := map[string]interface{}{}
 	var arg0 string
-	if tmp, ok := rawArgs["input"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 		arg0, err = ec.unmarshalNID2string(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["input"] = arg0
+	args["id"] = arg0
 	return args, nil
 }
 
@@ -762,7 +762,7 @@ func (ec *executionContext) _Mutation_deleteModule(ctx context.Context, field gr
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().DeleteModule(rctx, args["input"].(string))
+		return ec.resolvers.Mutation().DeleteModule(rctx, args["id"].(string))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -774,9 +774,9 @@ func (ec *executionContext) _Mutation_deleteModule(ctx context.Context, field gr
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Module)
+	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalNModule2ᚖgithubᚗcomᚋMalukiMuthusiᚋedufiᚋserverᚋgraphᚋmodelᚐModule(ctx, field.Selections, res)
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_modules(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {

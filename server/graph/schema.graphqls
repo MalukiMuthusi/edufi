@@ -13,7 +13,7 @@ type Mutation {
   # createModule creates a new module and saves it to the system
   createModule(input: NewModule!): ID!
   updateModule(input: NewModule!): Module!
-  deleteModule(input: ID!): Module!
+  deleteModule(id: ID!): String!
 }
 
 # Module is specified by the institution and students enrol for its class
