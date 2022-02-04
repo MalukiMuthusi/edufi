@@ -12,7 +12,7 @@ import (
 	"github.com/MalukiMuthusi/edufi/server/graph/generated"
 )
 
-const defaultPort = "8114"
+const defaultPort = "8110"
 
 func main() {
 
